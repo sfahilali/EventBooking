@@ -2,7 +2,7 @@
  * Created by ahilali on 14/12/2021.
  */
 
-public with sharing class DM001_Case {
+public with sharing class CaseDataManager {
 
     public static Case getCaseByAccountId( Id accountId ){
         return [

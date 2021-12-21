@@ -7,7 +7,7 @@ public class ExternalSystemService {
     @Future(Callout = true)
     public static void registerAttendees(Set<Id> accountsIds) {
         // ContactDataManager
-        List<Contact> contacts = DM003_Contact.getContactsByAccountsIds(accountsIds);
+        List<Contact> contacts = ContactDataManager.getContactsByAccountsIds(accountsIds);
 
         HttpResponse response = AttendeesCallouts.registerAttendees(contacts);
         // Parse the JSON response
@@ -30,28 +30,32 @@ public class ExternalSystemService {
             // Set capacity to not exceed daily email limits
             Messaging.reserveSingleEmailCapacity(contacts.size());
             for ( Contact contact : contacts){
-                Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+                if( contact.Email != '') {
+                    Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
 
-                // Strings to hold the email addresses to which you are sending the email.
-                String[] toAddresses = new String[] {contact.Email};
+                    // Strings to hold the email addresses to which you are sending the email.
+                    String[] toAddresses = new String[]{
+                            contact.Email
+                    };
 
-                // Assign the addresses for the To and CC lists to the mail object.
-                mail.setToAddresses(toAddresses);
+                    // Assign the addresses for the To and CC lists to the mail object.
+                    mail.setToAddresses(toAddresses);
 
-                // Specify the name used as the display name.
-                mail.setSenderDisplayName('Salesforce Support');
+                    // Specify the name used as the display name.
+                    mail.setSenderDisplayName('Salesforce Support');
 
-                // Specify the subject line for your email address.
-                mail.setSubject('Hi ' + contact.Name + '!');
+                    // Specify the subject line for your email address.
+                    mail.setSubject('Hi ' + contact.Name + '!');
 
-                // Set to True if you want to BCC yourself on the email.
-                mail.setBccSender(false);
+                    // Set to True if you want to BCC yourself on the email.
+                    mail.setBccSender(false);
 
-                // Specify the text content of the email.
-                mail.setPlainTextBody('Welcome ' + contact.Name + ' you have been successfully register');
+                    // Specify the text content of the email.
+                    mail.setPlainTextBody('Welcome ' + contact.Name + ' you have been successfully register');
 
-                mail.setHtmlBody('Welcome ' + contact.Name + ' you have been successfully register');
-                mails.add( mail );
+                    mail.setHtmlBody('Welcome ' + contact.Name + ' you have been successfully register');
+                    mails.add(mail);
+                }
             }
 
             // Send the email you have created.

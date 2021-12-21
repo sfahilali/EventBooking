@@ -2,7 +2,7 @@
  * Created by ahilali on 21/12/2021.
  */
 
-public with sharing class DM003_Contact {
+public with sharing class ContactDataManager {
 
     /**
      * @param accountsIds

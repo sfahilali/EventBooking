@@ -5,7 +5,7 @@
 public with sharing class AttendeesCallouts {
 
     public static HttpResponse registerAttendees( List<Contact> contacts ){
-        String webServiceURL = WebServiceConstants.WEB_SERVICE_URL;
+        String webServiceURL = ServiceConstants.WEB_SERVICE_URL;
         String body = '';
 
         Http http = new Http();

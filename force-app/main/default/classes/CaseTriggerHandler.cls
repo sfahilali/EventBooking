@@ -3,11 +3,17 @@
  */
 
 public class CaseTriggerHandler extends TriggerHandler{
+
     public override void beforeInsert() {
+        Set<Id> accountsIds = new Set<Id>();
+        for ( Case requests : (List<Case>)Trigger.new ){
+            accountsIds.add( requests.AccountId );
+        }
+        Map<String,Account> accounts = AccountDataManager.getAccountsByIds_Map( accountsIds );
         for ( Case request : (List<Case>)Trigger.new ){
             // Testing if the content of case is null or not to avoid NPE ;)
-            if(request.AccountId != null){
-                Account account = DM002_Account.getAccountById( request.AccountId );
+            if( request.AccountId != null && (accounts.get( request.AccountId ) != null ) ){
+                Account account = accounts.get( request.AccountId );
                 Integer contacts = account.Contacts.size();
 
                 if(account.Contacts.isEmpty()){
@@ -17,7 +23,7 @@ public class CaseTriggerHandler extends TriggerHandler{
                     String requestOrigin = request.Origin;
                     String allowedAttendee = ( requestOrigin == 'Web' )? 'one' : 'three';
 
-                    if( (contacts < 2 && requestOrigin == 'Web') || (contacts < 4 && requestOrigin == 'Phone') ) {
+                    if( (contacts >= 2 && ServiceConstants.CASE_ORIGIN_WEB.equals(requestOrigin)) || (contacts >= 4 && ServiceConstants.CASE_ORIGIN_PHONE.equals(requestOrigin)) ) {
                         request.addError( requestOrigin + ' request are only allowed to have ' + allowedAttendee +  ' attendee' );
                     }
                 }

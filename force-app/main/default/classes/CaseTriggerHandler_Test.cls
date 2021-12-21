@@ -15,7 +15,8 @@ public class CaseTriggerHandler_Test {
         Contact contact = (Contact)TestDataFactory.createSObject('Contact',new Map<String,Object> {
                 'FirstName' => 'Contact',
                 'LastName' => 'Test',
-                'AccountId' => account.Id
+                'AccountId' => account.Id,
+                'Email' => 'ahmed@hilali.com'
         },true);
         Case request = (Case)TestDataFactory.createSObject('Case', new Map<String,Object>{
                 'Origin' => 'Phone',
@@ -41,19 +42,22 @@ public class CaseTriggerHandler_Test {
         contact = (Contact)TestDataFactory.createSObject('Contact',new Map<String,Object> {
                 'FirstName' => 'Contact',
                 'LastName' => 'One',
-                'AccountId' => account.Id
+                'AccountId' => account.Id,
+                'Email' => 'ahmed@hilali.com'
         },true);
 
         contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
                 'FirstName' => 'Contact',
                 'LastName' => 'Two',
-                'AccountId' => account.Id
+                'AccountId' => account.Id,
+                'Email' => 'ahmed@hilali.com'
         }, true);
 
         contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
                 'FirstName' => 'Contact',
                 'LastName' => 'Three',
-                'AccountId' => account.Id
+                'AccountId' => account.Id,
+                'Email' => 'ahmed@hilali.com'
         }, true);
 
         /**
@@ -104,7 +108,7 @@ public class CaseTriggerHandler_Test {
     public static void insertCaseWithoutContacts_Test(){
         try{
             // Given
-            Account account = DM002_Account.getAccountByName('VMWare');
+            Account account = AccountDataManager.getAccountByName('VMWare');
             Case request = (Case)TestDataFactory.createSObject('Case', new Map<String,Object>{
                     'Origin' => 'Phone',
                     'Subject' => 'Event Booking',
@@ -133,7 +137,7 @@ public class CaseTriggerHandler_Test {
     public static void createCaseForPhone_Test(){
         try{
             // Given
-            Account account = DM002_Account.getAccountByName('Salesforce');
+            Account account = AccountDataManager.getAccountByName('Salesforce');
             BusinessHours businessHours = [SELECT Id FROM BusinessHours LIMIT 1];
             Case request = (Case)TestDataFactory.createSObject('Case', new Map<String,Object>{
                     'Origin' => 'Phone',
@@ -164,11 +168,12 @@ public class CaseTriggerHandler_Test {
     public static void insertCasePhoneThreeContacts_Test(){
         try{
             // Given
-            Account account = DM002_Account.getAccountByName('Salesforce');
+            Account account = AccountDataManager.getAccountByName('Salesforce');
 
             Contact contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
                     'LastName' => 'Contact 4',
-                    'AccountId' => account.Id
+                    'AccountId' => account.Id,
+                    'Email' => 'ahmed@hilali.com'
             }, true);
 
             Case request = (Case)TestDataFactory.createSObject('Case', new Map<String,Object>{
@@ -198,7 +203,7 @@ public class CaseTriggerHandler_Test {
     public static void createCaseForWeb_Test(){
         try{
             // Given
-            Account account = DM002_Account.getAccountByName('IBM');
+            Account account = AccountDataManager.getAccountByName('IBM');
             Case request = (Case)TestDataFactory.createSObject('Case', new Map<String,Object>{
                     'Origin' => 'Web',
                     'Subject' => 'Event Booking',
@@ -227,15 +232,17 @@ public class CaseTriggerHandler_Test {
     public static void insertCaseWebTwoContacts_Test(){
         try{
             // Given
-            Account account = DM002_Account.getAccountByName('Salesforce');
+            Account account = AccountDataManager.getAccountByName('Salesforce');
 
             Contact contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
                     'LastName' => 'Contact 2',
-                    'AccountId' => account.Id
+                    'AccountId' => account.Id,
+                    'Email' => 'ahmed@hilali.com'
             }, true);
             contact = (Contact)TestDataFactory.createSObject('Contact', new Map<String,Object>{
                     'LastName' => 'Contact 3',
-                    'AccountId' => account.Id
+                    'AccountId' => account.Id,
+                    'Email' => 'ahmed@hilali.com'
             }, true);
 
             Case request = (Case)TestDataFactory.createSObject('Case', new Map<String,Object>{
@@ -266,9 +273,9 @@ public class CaseTriggerHandler_Test {
     @IsTest
     public static void updateCase_Test(){
         try{
-            Account account = DM002_Account.getAccountByName('Test');
+            Account account = AccountDataManager.getAccountByName('Test');
 
-            Case request = DM001_Case.getCaseByAccountId( account.Id );
+            Case request = CaseDataManager.getCaseByAccountId( account.Id );
             request.Status = 'Closed';
 
             Test.startTest();
