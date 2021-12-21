@@ -21,7 +21,7 @@ public with sharing class AttendeesCallouts {
         //body += ']';
         request.setBody(body);
         HttpResponse response = http.send(request);
-        return response.getBody();
+        return response;
     }
 
 }
