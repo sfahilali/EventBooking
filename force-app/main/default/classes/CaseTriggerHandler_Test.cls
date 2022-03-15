@@ -97,6 +97,7 @@ public class CaseTriggerHandler_Test {
             // Then
             System.assertEquals(!result.isSuccess(), true );
         }catch(DmlException e) {
+            // TODO: 15/3/2022 This test will always pass!!
             System.assert(true);
         }
     }
@@ -134,7 +135,7 @@ public class CaseTriggerHandler_Test {
      * @description Book Event From Phone
      */
     @IsTest
-    public static void createCaseForPhone_Test(){
+    private static void createCaseForPhone_Test(){
         try{
             // Given
             Account account = AccountDataManager.getAccountByName('Salesforce');

@@ -24,7 +24,7 @@ public class ExternalSystemService {
      * @param contacts
      */
     public static void notifyAttendeeByEmail(List<Contact> contacts) {
-
+        // TODO: 15/3/2022 It makes more sense to have this condition above
         if( !contacts.isEmpty() ){
             List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
             // Set capacity to not exceed daily email limits
